@@ -4,21 +4,23 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "apicache": "^1.2.3",
     "axios": "^0.18.0",
-    "micro": "^9.3.3",
-    "micro-cacheable": "^2.0.1",
-    "micro-cors": "^0.1.1",
-    "micro-dev": "^3.0.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
     "node-fetch": "^2.2.0"
   },
   "scripts": {
-    "start": "micro",
-    "dev": "micro-dev"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "now": {
     "alias": "cinemark-api",
     "engines": {
       "node": "^10.0.0"
     }
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.5"
   }
 }

@@ -1,15 +1,20 @@
-const microCors = require('micro-cors')
-const cache = require('micro-cacheable')
+const express = require('express')
+const cors = require('cors')({ origin: true })
+const apicache = require('apicache')
 const fetch = require('node-fetch')
 
-const cors = microCors()
+const app = express()
+const cache = apicache.middleware
 
-module.exports = cache(
-  6 * 60 * 60 * 1000,
-  cors(async (req, res) => {
-    const response = await fetch('https://cinemark-220917.appspot.com')
-    const data = await response.json()
+app.use(cors)
 
-    return data
-  })
-)
+app.get('*', cache('6 hours'), async (req, res) => {
+  const response = await fetch('https://cinemark-220917.appspot.com')
+  const data = await response.json()
+
+  res.send(data)
+})
+
+app.listen(process.env.PORT || 8080, err => {
+  if (err) return console.error(err)
+})
