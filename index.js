@@ -1,9 +1,15 @@
+const microCors = require('micro-cors')
 const cache = require('micro-cacheable')
-require('isomorphic-fetch')
+const fetch = require('node-fetch')
 
-module.exports = cache(6 * 60 * 60 * 1000, async (req, res) => {
-  const response = await fetch('https://cinemark-220917.appspot.com')
-  const data = await response.json()
+const cors = microCors()
 
-  return data
-})
+module.exports = cache(
+  6 * 60 * 60 * 1000,
+  cors(async (req, res) => {
+    const response = await fetch('https://cinemark-220917.appspot.com')
+    const data = await response.json()
+
+    return data
+  })
+)
