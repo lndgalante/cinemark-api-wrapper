@@ -1,3 +1,4 @@
+const fetch = require('node-fetch')
 const capitalize = require('lodash.capitalize')
 
 const toTitleCase = string =>
@@ -31,14 +32,16 @@ const getImdbInfo = async title => {
 
   const [movie] = data.results
 
-  const { vote_average: votes, poster_path: posterPath } = movie
+  const { title: name, vote_average: votes, poster_path: posterPath, original_language: originalLanguage } = movie
 
   const baseImageUrl = 'https://image.tmdb.org/t/p'
   const withWidth = width => `w${width}`
 
   const poster = `${baseImageUrl}/${withWidth(300)}/${posterPath}`
 
-  return { votes, poster }
+  const language = originalLanguage === 'en' ? 'en' : 'es'
+
+  return { name, language, votes, poster }
 }
 
 module.exports = { toTitleCase, fixName, getImdbInfo }

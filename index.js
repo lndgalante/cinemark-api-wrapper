@@ -59,6 +59,7 @@ app.get('/movies', cache('3 hours'), async (req, res) => {
       }) => {
         const data = {
           movieId: Id,
+          language: 'es',
           name: toTitleCase(Name),
           minAge: Rating.split(' ')[0],
           description: Description,
