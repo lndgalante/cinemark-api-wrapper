@@ -9,7 +9,7 @@ const dayjs = require('dayjs')
 require('dayjs/locale/es')
 dayjs.locale('es')
 
-const { toTitleCase, fixName, getImdbInfo } = require('./utils')
+const { toTitleCase, fixName, fixFeatures, getImdbInfo } = require('./utils')
 
 const app = express()
 const cache = apicache.middleware
@@ -25,10 +25,12 @@ app.get('/cinemas', cache('24 hours'), async (req, res) => {
     cinemaId: Id,
     value: Name,
     label: fixName(Name),
-    features: Features,
     latitude: decLatitude,
     longitude: decLongitude,
-    tags: [{ tag: Address, link: URLGoogleMaps }, { tag: Features, link: 'https://www.cinemarkhoyts.com.ar/formatos' }],
+    tags: [
+      { tag: Address, link: URLGoogleMaps },
+      { tag: fixFeatures(Features), link: 'https://www.cinemarkhoyts.com.ar/formatos' },
+    ],
   }))
 
   res.send(data)

@@ -7,6 +7,12 @@ const toTitleCase = string =>
     .map(capitalize)
     .join(' ')
 
+const fixFeatures = features =>
+  features
+    .split('|')
+    .map((value, index) => (index === 0 ? toTitleCase(value) : value))
+    .join('|')
+
 const fixName = name => {
   if (name === 'Hoyts Nuevocentro') return 'Hoyts Nuevo Centro'
   if (name === 'Cinemark Tortugas') return 'Cinemark Tortuguitas'
@@ -44,4 +50,4 @@ const getImdbInfo = async title => {
   return { name, language, votes, poster }
 }
 
-module.exports = { toTitleCase, fixName, getImdbInfo }
+module.exports = { toTitleCase, fixName, fixFeatures, getImdbInfo }
