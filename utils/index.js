@@ -10,7 +10,7 @@ const toTitleCase = string =>
 const fixFeatures = features =>
   features
     .split('|')
-    .map((value, index) => (index === 0 ? toTitleCase(value) : value))
+    .map((value, index) => (index === 0 ? toTitleCase(value) : value.replace('Y', 'y')))
     .join('|')
 
 const fixName = name => {
@@ -38,16 +38,25 @@ const getImdbInfo = async title => {
 
   const [movie] = data.results
 
-  const { title: name, vote_average: votes, poster_path: posterPath, original_language: originalLanguage } = movie
+  const { title: name, vote_average: votes, poster_path: posterPath } = movie
 
   const baseImageUrl = 'https://image.tmdb.org/t/p'
   const withWidth = width => `w${width}`
 
   const poster = `${baseImageUrl}/${withWidth(300)}/${posterPath}`
 
-  const language = originalLanguage === 'en' ? 'en' : 'es'
-
-  return { name, language, votes, poster }
+  return { name, votes, poster }
 }
 
-module.exports = { toTitleCase, fixName, fixFeatures, getImdbInfo }
+const emojifier = category => {
+  if (category === 'Drama') return '🎭'
+  if (category === 'Acción') return '💥'
+  if (category === 'Terror') return '😱'
+  if (category === 'Animación') return '🦄'
+  if (category === 'Aventuras') return '🤠'
+  if (category === 'Biografia') return '✍️'
+
+  return ''
+}
+
+module.exports = { toTitleCase, fixName, fixFeatures, getImdbInfo, emojifier }

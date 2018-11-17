@@ -9,18 +9,12 @@
     "dayjs": "^1.7.7",
     "express": "^4.16.4",
     "lodash.capitalize": "^4.2.1",
-    "node-fetch": "^2.2.1",
+    "node-fetch": "^2.3.0",
     "safe-json-parse": "^4.0.0"
   },
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
-  },
-  "now": {
-    "alias": "cinemark-api",
-    "engines": {
-      "node": "^10.0.0"
-    }
   },
   "devDependencies": {
     "nodemon": "^1.18.6"

@@ -9,12 +9,22 @@ const dayjs = require('dayjs')
 require('dayjs/locale/es')
 dayjs.locale('es')
 
-const { toTitleCase, fixName, fixFeatures, getImdbInfo } = require('./utils')
+const { toTitleCase, fixName, fixFeatures, getImdbInfo, emojifier } = require('./utils')
 
 const app = express()
 const cache = apicache.middleware
 
 app.use(cors)
+
+/*
+app.get('/', cache('3 hours'), async (req, res) => {
+  const response = await fetch('https://www.cinemarkhoyts.com.ar/billboard.ashx')
+  const code = await response.text()
+  const [err, json] = safeParse(code.slice(15, -1))
+
+  res.send(json)
+})
+*/
 
 app.get('/cinemas', cache('24 hours'), async (req, res) => {
   const response = await fetch('https://www.cinemarkhoyts.com.ar/billboard.ashx')
@@ -41,8 +51,10 @@ app.get('/movies', cache('3 hours'), async (req, res) => {
   const code = await response.text()
   const [err, json] = safeParse(code.slice(15, -1))
 
+  // We do not include Special or Festival movies
   const premieres = json.Films.filter(
-    ({ AttributeList: attributes }) => attributes.includes(0) && !attributes.includes(3)
+    ({ AttributeList: attributes }) =>
+      !attributes.length || (attributes.includes(0) && !attributes.includes(2) && !attributes.includes(3))
   )
 
   const data = await Promise.all(
@@ -58,15 +70,17 @@ app.get('/movies', cache('3 hours'), async (req, res) => {
         URLTrailerYoutube,
         PersonList,
         CinemaList,
+        AttributeList,
       }) => {
         const data = {
           movieId: Id,
-          language: 'es',
           name: toTitleCase(Name),
           minAge: Rating.split(' ')[0],
           description: Description,
           duration: `${Duration} minutos`,
           category: Category,
+          emoji: emojifier(Category),
+          isPremiere: AttributeList.includes(0),
           poster: URLPoster,
           youTubeId: URLTrailerYoutube.split('.be/')[1],
           inCinemas: CinemaList,
@@ -95,7 +109,9 @@ app.get('/movies', cache('3 hours'), async (req, res) => {
     )
   )
 
-  res.send(data)
+  const sortedByPremiere = data.sort((a, b) => b.isPremiere - a.isPremiere)
+
+  res.send(sortedByPremiere)
 })
 
 app.get('/movie', cache('15 minutes'), async (req, res) => {
@@ -128,6 +144,6 @@ app.get('/movie', cache('15 minutes'), async (req, res) => {
   res.send(data)
 })
 
-app.listen(process.env.PORT || 8080, err => {
+app.listen(process.env.PORT || 5050, err => {
   if (err) return console.error(err)
 })
