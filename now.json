@@ -2,6 +2,5 @@
   "version": 2,
   "name": "cinemark-wrapper-api",
   "alias": "cinemark-wrapper-api",
-  "engines": { "node": "^10.0.0" },
   "builds": [{ "src": "index.js", "use": "@now/node" }]
 }
