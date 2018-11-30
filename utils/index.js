@@ -45,7 +45,9 @@ const getImdbInfo = async title => {
 
   const poster = `${baseImageUrl}/${withWidth(300)}/${posterPath}`
 
-  return { name, votes, poster }
+  const votesParsed = String(votes).length === 1 ? `${votes}.0` : `${votes}`
+
+  return { name, votes: votesParsed, poster }
 }
 
 const emojifier = category => {

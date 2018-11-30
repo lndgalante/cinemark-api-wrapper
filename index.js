@@ -16,16 +16,6 @@ const cache = apicache.middleware
 
 app.use(cors)
 
-/*
-app.get('/', cache('3 hours'), async (req, res) => {
-  const response = await fetch('https://www.cinemarkhoyts.com.ar/billboard.ashx')
-  const code = await response.text()
-  const [err, json] = safeParse(code.slice(15, -1))
-
-  res.send(json)
-})
-*/
-
 app.get('/cinemas', cache('24 hours'), async (req, res) => {
   const response = await fetch('https://www.cinemarkhoyts.com.ar/billboard.ashx')
   const code = await response.text()
