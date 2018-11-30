@@ -50,15 +50,18 @@ const getImdbInfo = async title => {
   return { name, votes: votesParsed, poster }
 }
 
-const emojifier = category => {
-  if (category === 'Drama') return '🎭'
-  if (category === 'Acción') return '💥'
-  if (category === 'Terror') return '😱'
-  if (category === 'Animación') return '🦄'
-  if (category === 'Aventuras') return '🤠'
-  if (category === 'Biografia') return '✍️'
-
-  return ''
+const emojisGenres = {
+  Drama: '🎭',
+  Acción: '💥',
+  Terror: '💀',
+  Thriller: '😱',
+  Animación: '🦄',
+  Aventuras: '🤠',
+  Biografia: '✍️',
+  Comedia: '😂',
+  Policial: '👮‍',
 }
+
+const emojifier = category => emojisGenres[category] || ''
 
 module.exports = { toTitleCase, fixName, fixFeatures, getImdbInfo, emojifier }
