@@ -53,7 +53,7 @@ const getImdbInfo = async title => {
 const emojisGenres = {
   Drama: '🎭',
   Acción: '💥',
-  Terror: '💀',
+  Terror: '☠️',
   Thriller: '😱',
   Animación: '🦄',
   Aventuras: '🤠',
