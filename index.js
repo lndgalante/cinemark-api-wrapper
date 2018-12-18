@@ -5,6 +5,7 @@ const safeParse = require('safe-json-parse/tuple')
 
 const fetch = require('node-fetch')
 const dayjs = require('dayjs')
+const flatten = require('lodash.flatten')
 
 require('dayjs/locale/es')
 dayjs.locale('es')
@@ -114,24 +115,29 @@ app.get('/movie', cache('15 minutes'), async (req, res) => {
   const data = json.Films.filter(({ Id }) => Id === movieId).map(({ Name, MovieList }) => ({
     name: toTitleCase(Name),
     shows: MovieList.filter(({ CinemaList }) => CinemaList.some(({ Id }) => Id === Number(cinemaId))).map(
-      ({ Format, Version, CinemaList }) => ({
-        format: toTitleCase(Format)
-          .split(' ')
-          .map((value, index) => (index === 0 ? value.toUpperCase() : value))
-          .join(' '),
-        version: toTitleCase(Version),
-        cinemas: CinemaList.filter(({ Id }) => Id === Number(cinemaId)).map(({ Id: cinemaId, SessionList }) =>
-          SessionList.map(({ Id: sessionId, Feature: featureId, Dtm }) => ({
-            date: dayjs(Dtm).format('dddd D [de] MMMM'),
-            time: dayjs(Dtm).format('HH[:]mm'),
+      ({ Format, Version, CinemaList }) =>
+        CinemaList.filter(({ Id }) => Id === Number(cinemaId)).map(({ Id: cinemaId, SessionList }) =>
+          SessionList.map(({ Id: sessionId, Feature: featureId, Dtm: timestamp }) => ({
+            timestamp,
+            date: dayjs(timestamp).format('dddd D [de] MMMM'),
+            time: dayjs(timestamp).format('HH[:]mm'),
             link: `https://tickets.cinemarkhoyts.com.ar/NSTicketing/?CinemaId=${cinemaId}&SessionId=${sessionId}&FeatureId=${featureId}`,
+            format: toTitleCase(Format)
+              .split(' ')
+              .map((value, index) => (index === 0 ? value.toUpperCase() : value))
+              .join(' '),
+            version: toTitleCase(Version),
           }))
-        )[0],
-      })
+        )[0]
     ),
   }))[0]
 
-  res.send(data)
+  const flattenData = {
+    ...data,
+    shows: flatten(data.shows).sort((a, b) => (dayjs(a.timestamp).isAfter(dayjs(b.timestamp)) ? 1 : -1)),
+  }
+
+  res.send(flattenData)
 })
 
 app.listen(process.env.PORT || 5050, err => {

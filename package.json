@@ -6,15 +6,17 @@
   "dependencies": {
     "apicache": "^1.2.3",
     "cors": "^2.8.5",
-    "dayjs": "^1.7.7",
+    "dayjs": "^1.7.8",
     "express": "^4.16.4",
     "lodash.capitalize": "^4.2.1",
+    "lodash.flatten": "^4.4.0",
     "node-fetch": "^2.3.0",
     "safe-json-parse": "^4.0.0"
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "deploy": "now && now alias"
   },
   "devDependencies": {
     "nodemon": "^1.18.7"
