@@ -1,5 +1,5 @@
 const express = require('express')
-const cors = require('cors')({ origin: true })
+const cors = require('cors')
 const apicache = require('apicache')
 const safeParse = require('safe-json-parse/tuple')
 
@@ -15,7 +15,7 @@ const { toTitleCase, fixName, fixFeatures, getImdbInfo, emojifier } = require('.
 const app = express()
 const cache = apicache.middleware
 
-app.use(cors)
+app.use(cors({ origin: 'https://estrenos.sh' }))
 
 app.get('/cinemas', cache('24 hours'), async (req, res) => {
   const response = await fetch('https://www.cinemarkhoyts.com.ar/billboard.ashx')
