@@ -2,5 +2,16 @@
   "version": 2,
   "name": "cinemark-wrapper-api",
   "alias": "cinemark-wrapper-api",
-  "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }]
-}
+  "builds": [
+      {
+          "src": "./index.js",
+          "use": "@vercel/node"
+      }
+  ],
+  "routes": [
+      {
+          "src": "/(.*)",
+          "dest": "/"
+      }
+  ]
+  }
