@@ -4,13 +4,15 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "apicache": "^1.2.3",
+    "cache-manager": "^3.4.0",
     "cors": "^2.8.5",
-    "dayjs": "^1.7.8",
-    "express": "^4.16.4",
+    "dayjs": "^1.9.6",
+    "express": "^4.17.1",
+    "express-cache-middleware": "^1.0.1",
     "lodash.capitalize": "^4.2.1",
     "lodash.flatten": "^4.4.0",
-    "node-fetch": "^2.3.0",
+    "ms": "^2.1.2",
+    "node-fetch": "^2.6.1",
     "safe-json-parse": "^4.0.0"
   },
   "scripts": {
@@ -19,6 +21,6 @@
     "deploy": "now && now alias"
   },
   "devDependencies": {
-    "nodemon": "^1.18.7"
+    "nodemon": "^2.0.6"
   }
 }
