@@ -12,7 +12,7 @@ const flatten = require('lodash.flatten');
 require('dayjs/locale/es');
 dayjs.locale('es');
 
-const { toTitleCase, fixName, fixFeatures, getImdbInfo, emojifier } = require('./utils');
+const { toTitleCase, fixName, fixFeatures, getImdbInfo, emojifier } = require('../utils');
 
 const app = express();
 const cacheMiddleware = new ExpressCache(
