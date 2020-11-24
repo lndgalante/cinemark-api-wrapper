@@ -24,7 +24,7 @@ const cacheMiddleware = new ExpressCache(
 );
 
 cacheMiddleware.attach(app);
-app.use(cors({ origin: 'https://estrenos.sh' }));
+app.use(cors({ origin: 'https://cinemark-app.vercel.app' }));
 
 app.get('/cinemas', async (req, res) => {
   const response = await fetch('https://www.cinemarkhoyts.com.ar/billboard.ashx');
