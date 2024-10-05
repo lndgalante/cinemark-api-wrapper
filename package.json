@@ -1,26 +1,18 @@
 {
-  "name": "api-wrapper",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "dependencies": {
-    "cache-manager": "^3.4.0",
-    "cors": "^2.8.5",
-    "dayjs": "^1.9.6",
-    "express": "^4.17.1",
-    "express-cache-middleware": "^1.0.1",
-    "lodash.capitalize": "^4.2.1",
-    "lodash.flatten": "^4.4.0",
-    "ms": "^2.1.2",
-    "node-fetch": "^2.6.1",
-    "safe-json-parse": "^4.0.0"
-  },
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "deploy": "now && now alias"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.6"
-  }
+	"name": "api-wrapper",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"dependencies": {
+		"dayjs": "^1.11.13",
+		"hono": "^4.6.3",
+		"lodash.capitalize": "^4.2.1",
+		"lodash.flatten": "^4.4.0",
+		"safe-json-parse": "^4.0.0"
+	},
+	"scripts": {
+		"start": "bun run index.ts",
+		"dev": "bun --watch index.ts",
+		"clean:install": "rm -rf node_modules && rm -rf bun.lockb && bun install --force"
+	}
 }
