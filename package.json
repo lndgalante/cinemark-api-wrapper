@@ -3,6 +3,11 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"license": "MIT",
+	"scripts": {
+		"dev": "wrangler dev",
+		"deploy": "wrangler deploy --minify index.ts",
+		"clean:install": "rm -rf node_modules && rm -rf bun.lockb && bun install --force"
+	},
 	"dependencies": {
 		"dayjs": "^1.11.13",
 		"hono": "^4.6.3",
@@ -10,9 +15,8 @@
 		"lodash.flatten": "^4.4.0",
 		"safe-json-parse": "^4.0.0"
 	},
-	"scripts": {
-		"start": "bun run index.ts",
-		"dev": "bun --watch index.ts",
-		"clean:install": "rm -rf node_modules && rm -rf bun.lockb && bun install --force"
+	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20241004.0",
+		"wrangler": "^3.80.0"
 	}
 }
